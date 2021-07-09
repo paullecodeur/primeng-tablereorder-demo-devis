@@ -9,4 +9,7 @@ export interface Product {
     category?:string;
     image?:string;
     rating?:number;
+    number?:number;
+    parentNum?:number;
+    visible?:boolean;
 }

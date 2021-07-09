@@ -10,7 +10,10 @@
 			"category": "Accessories",
 			"quantity": 24,
 			"inventoryStatus": "INSTOCK",
-			"rating": 5
+			"rating": 5,
+			"number": 1,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1001",
@@ -22,7 +25,10 @@
 			"category": "Accessories",
 			"quantity": 61,
 			"inventoryStatus": "INSTOCK",
-			"rating": 4
+			"rating": 4,
+			"number": 2,
+			"visible": true,
+			"parentNum": 1
 		},
 		{
 			"id": "1002",
@@ -34,7 +40,10 @@
 			"category": "Fitness",
 			"quantity": 2,
 			"inventoryStatus": "LOWSTOCK",
-			"rating": 3
+			"rating": 3,
+			"number": 3,
+			"visible": true,
+			"parentNum": 1
 		},
 		{
 			"id": "1003",
@@ -46,7 +55,10 @@
 			"category": "Clothing",
 			"quantity": 25,
 			"inventoryStatus": "INSTOCK",
-			"rating": 5
+			"rating": 5,
+			"number": 4,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1004",
@@ -58,7 +70,10 @@
 			"category": "Accessories",
 			"quantity": 73,
 			"inventoryStatus": "INSTOCK",
-			"rating": 4
+			"rating": 4,
+			"number": 5,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1005",
@@ -70,7 +85,10 @@
 			"category": "Accessories",
 			"quantity": 0,
 			"inventoryStatus": "OUTOFSTOCK",
-			"rating": 4
+			"rating": 4,
+			"number": 6,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1006",
@@ -82,7 +100,10 @@
 			"category": "Accessories",
 			"quantity": 5,
 			"inventoryStatus": "LOWSTOCK",
-			"rating": 3
+			"rating": 3,
+			"number": 7,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1007",
@@ -94,7 +115,10 @@
 			"category": "Accessories",
 			"quantity": 23,
 			"inventoryStatus": "INSTOCK",
-			"rating": 5
+			"rating": 5,
+			"number": 8,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1008",
@@ -106,7 +130,10 @@
 			"category": "Electronics",
 			"quantity": 2,
 			"inventoryStatus": "LOWSTOCK",
-			"rating": 4
+			"rating": 4,
+			"number": 9,
+			"visible": true,
+			"parentNum": null
 		},
 		{
 			"id": "1009",
@@ -118,7 +145,10 @@
 			"category": "Electronics",
 			"quantity": 63,
 			"inventoryStatus": "INSTOCK",
-			"rating": 3
+			"rating": 3,
+			"number": 10,
+			"visible": true,
+			"parentNum": null
 		}
 	]
 }

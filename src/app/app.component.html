@@ -1,4 +1,4 @@
-<p-table [value]="products" [columns]="cols" [reorderableColumns]="true">
+<p-table [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReording)= "onRowReording($event)">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width:3rem"></th>
@@ -8,7 +8,8 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-        <tr [pReorderableRow]="index">
+        <!-- *ngIf="rowData['visible']" -->
+        <tr [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)"  (drop)="onDrop(rowData, index)" >
             <td>
                 <span class="pi pi-bars" pReorderableRowHandle></span>
             </td>
