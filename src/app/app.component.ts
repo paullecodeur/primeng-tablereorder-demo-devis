@@ -20,7 +20,7 @@ export class AppComponent {
             { field: 'code', header: 'Code' },
             { field: 'name', header: 'Name' },
             { field: 'category', header: 'Category' },
-            { field: 'quantity', header: 'Quantity' }
+            { field: 'rating', header: 'Rating' }
         ];
     }
 }
