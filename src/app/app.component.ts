@@ -89,15 +89,28 @@ export class AppComponent {
         this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
 
         // mise à jour parent
-        if(rowdata.rowType === 'line')
+        if(rowdata.rowType === 'ligne')
         this.products[indexdrap].parentId = rowdata.parentId;
 
         if(rowdata.rowType === 'section')
         this.products[indexdrap].parentId = rowdata.id;
 
-        
+
         // numerotation
         this.numerotation();
+        
+        // sort
+        this.products.sort(function(a, b) {
+
+            if (a.number < b.number)
+            return -1;
+            if (a.number > b.number)
+            return 1;
+            // a doit être égal à b
+            return 0;
+
+            // return a.id - b.id;
+        });
 
     } 
 
