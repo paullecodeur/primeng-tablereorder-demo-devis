@@ -1,5 +1,5 @@
 export interface Product {
-    id?:string;
+    id?:number;
     code?:string;
     name?:string;
     description?:string;
@@ -9,7 +9,7 @@ export interface Product {
     category?:string;
     image?:string;
     rating?:number;
-    number?:number;
-    parentNum?:number;
+    number?:string;
+    parentId?:number;
     visible?:boolean;
 }
