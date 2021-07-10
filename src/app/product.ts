@@ -12,4 +12,5 @@ export interface Product {
     number?:string;
     parentId?:number;
     visible?:boolean;
+    rowType?: string;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from './productservice';
 import { Product } from './product';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,13 @@ export class AppComponent {
     drapelem: any;
     elemDrop: any[]=[];
 
+    statuses: SelectItem[];
+
     constructor(private productService: ProductService) { }
 
     ngOnInit() {
+
+        this.statuses = [{label: 'Ligne', value: 'ligne'},{label: 'Section', value: 'section'}]
 
         this.productService.getProductsSmall().then(data => {
             
@@ -47,7 +52,16 @@ export class AppComponent {
                 let compt2 = 1;
                 this.products.forEach((elem2, index2) => {
                     if(elem2.parentId === elem.id) {
-                        elem2.number = compt + '.' + compt2.toString();
+                        elem2.number = elem.number + '.' + compt2.toString();
+
+                        let compt3 = 1;
+                        this.products.forEach((elem3, index3) => {
+                            if(elem3.parentId === elem2.id) {
+                                elem3.number = elem2.number + '.' + compt3.toString();
+                                compt3++;
+                            }
+                        })
+
                         compt2++;
                     }
                 })
@@ -56,6 +70,19 @@ export class AppComponent {
 
             }
         })
+
+         // sort
+         this.products.sort(function(a, b) {
+
+            if (a.number < b.number)
+            return -1;
+            if (a.number > b.number)
+            return 1;
+            // a doit être égal à b
+            return 0;
+
+            // return a.id - b.id;
+        });
 
     }
 
@@ -69,9 +96,10 @@ export class AppComponent {
         return array;
     }
 
-    onDrop(rowdata, index){
+    onDrop(droprow, index){
+
         console.log(index);
-        console.log('drop', rowdata)
+        console.log('drop', droprow)
         this.products.forEach(elem => {
             if(elem.parentId === this.drapelem.id)
             elem.visible = true;
@@ -89,36 +117,52 @@ export class AppComponent {
         this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
 
         // mise à jour parent
-        if(rowdata.rowType === 'ligne')
-        this.products[indexdrap].parentId = rowdata.parentId;
+        if(droprow.rowType === 'ligne') {
+            // on controle le niveau du parent
+            if(this.products[indexdrap].rowType === 'ligne') {
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
 
-        if(rowdata.rowType === 'section')
-        this.products[indexdrap].parentId = rowdata.id;
+            if(this.products[indexdrap].rowType === 'section' && this.parentLevel(droprow) < 2) {
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+        }
 
+        if(droprow.rowType === 'section') {
+
+            if(this.products[indexdrap].rowType === 'ligne') {
+                this.products[indexdrap].parentId = droprow.id;
+            }
+
+            if(this.products[indexdrap].rowType === 'section') {
+                this.products[indexdrap].parentId = droprow.id;
+            }
+        }
 
         // numerotation
         this.numerotation();
-        
-        // sort
-        this.products.sort(function(a, b) {
-
-            if (a.number < b.number)
-            return -1;
-            if (a.number > b.number)
-            return 1;
-            // a doit être égal à b
-            return 0;
-
-            // return a.id - b.id;
-        });
 
     } 
 
-    dragStart(rowdata){
+
+    parentLevel(rowData) {
+        let level = 0 
+        while( rowData.parentId !== null) {
+            level++
+            const indexparent = this.products.findIndex(elem=>elem.id === rowData.parentId)
+            rowData = this.products[indexparent];
+        }
+
+        return level;
+
+    }
+
+
+    dragStart(rowData){
         // alert('');
         this.elemDrop = [];
-        this.drapelem = rowdata;
-        console.log('drap start', rowdata)
+        this.drapelem = rowData;
+        console.log('drap start', rowData)
         this.products.forEach((elem, index) => {
             if(elem.parentId === this.drapelem.id) {
                 elem.visible = false;
@@ -126,6 +170,19 @@ export class AppComponent {
                // console.log(index);
             }
         })
+    }
+
+    dragEnd(rowData) {
+
+        console.log('drap start', rowData)
+        this.products.forEach((elem, index) => {
+            if(elem.parentId === this.drapelem.id) {
+                elem.visible = true;
+                this.elemDrop.push(elem);
+               // console.log(index);
+            }
+        })
+
     }
 
     dragleave(){
