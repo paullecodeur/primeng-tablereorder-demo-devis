@@ -31,10 +31,10 @@ export class AppComponent {
         });
 
         this.cols = [
-            { field: 'number', header: 'Num' },
+            // { field: 'number', header: 'Num' },
+            { field: 'name', header: 'Name' },
             { field: 'id', header: 'ID' },
             { field: 'code', header: 'Code' },
-            { field: 'name', header: 'Name' },
             { field: 'category', header: 'Category' },
             // { field: 'rating', header: 'Rating' }
         ];
@@ -44,6 +44,8 @@ export class AppComponent {
     numerotation() {
 
         let compt = 1;
+        
+        const separateur = ' ' + '.' + ' '
 
         this.products.forEach((elem, index) => {
             if(elem.parentId === null) {
@@ -52,12 +54,12 @@ export class AppComponent {
                 let compt2 = 1;
                 this.products.forEach((elem2, index2) => {
                     if(elem2.parentId === elem.id) {
-                        elem2.number = elem.number + '.' + compt2.toString();
+                        elem2.number = elem.number + separateur + compt2.toString() ;
 
                         let compt3 = 1;
                         this.products.forEach((elem3, index3) => {
                             if(elem3.parentId === elem2.id) {
-                                elem3.number = elem2.number + '.' + compt3.toString();
+                                elem3.number = elem2.number + separateur + compt3.toString() ;
                                 compt3++;
                             }
                         })
