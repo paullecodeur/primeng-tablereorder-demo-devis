@@ -135,7 +135,7 @@ export class AppComponent {
             }
 
             if(this.products[indexdrap].rowType === 'section') {
-                this.products[indexdrap].parentId = droprow.id;
+                this.products[indexdrap].parentId = droprow.parentId;
             }
         }
 
