@@ -96,25 +96,23 @@ export class AppComponent {
         return array;
     }
 
-    onDrop(droprow, index){
+    onDrop(event, droprow, index){
+
+        // event.preventdefault();
+        // event.stopPropagation();
 
         console.log(index);
-        console.log('drop', droprow)
+        console.log('drop', droprow);
+        // on masque les fils
         this.products.forEach(elem => {
             if(elem.parentId === this.drapelem.id)
             elem.visible = true;
         })
 
-        this.elemDrop.forEach(elem => {
-            const index = this.products.findIndex(ele=>ele.id === elem.id)
-            if(index > -1)
-            this.products.splice(index, 1);
-            // console.log(elem);
-        })
 
         const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
 
-        this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
+        // this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
 
         // mise à jour parent
         if(droprow.rowType === 'ligne') {
@@ -146,6 +144,7 @@ export class AppComponent {
 
 
     parentLevel(rowData) {
+
         let level = 0 
         while( rowData.parentId !== null) {
             level++

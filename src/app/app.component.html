@@ -9,7 +9,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <!-- *ngIf="rowData['visible']" -->
-        <tr *ngIf="rowData['rowType'] == 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop(rowData, index)" >
+        <tr *ngIf="rowData['rowType'] == 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index);false" >
             <td>
                 <span class="pi pi-bars" pReorderableRowHandle></span>
             </td>
@@ -48,7 +48,7 @@
             </td>
         </tr>
 
-        <tr *ngIf="rowData['rowType'] == 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop(rowData, index)" >
+        <tr *ngIf="rowData['rowType'] == 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index);false" >
          <td> 
             <span class="pi pi-bars" pReorderableRowHandle></span>
          </td>
