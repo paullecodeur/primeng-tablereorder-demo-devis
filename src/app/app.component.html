@@ -1,9 +1,11 @@
-<p-table [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReording)= "onRowReording($event)">
+<p-table [(contextMenuSelection)]="selectedProduct" [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReording)= "onRowReording($event)" [(contextMenuSelection)]="selectedProduct">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th style="width:3rem"></th>
             <th *ngFor="let col of columns" pReorderableColumn>
                 {{col.header}}
+            </th>
+            <th>
             </th>
         </tr>
     </ng-template>
@@ -49,6 +51,11 @@
              </ng-template>
             </p-cellEditor>
             </td>
+
+            <td>
+              <i #menu class="pi pi-chevron-circle-down"></i>
+              <p-contextMenu [target]="menu" [model]="items" [triggerEvent]="'click'"></p-contextMenu>
+            </td>
         </tr>
 
         <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
@@ -59,7 +66,7 @@
            {{rowData['number']}}
          </td>
 
-         <td pEditableColumn colspan="3"> 
+         <td pEditableColumn colspan="2"> 
          <p-cellEditor>
          <ng-template pTemplate="input">
            <input pInputText type="text" [(ngModel)]="rowData['name']" required>
@@ -70,8 +77,14 @@
          </p-cellEditor>
          </td>
 
-         <td> 
-           {{rowData['quantity']}}
+         <td colspan="2" style="text-align: right"> 
+           Sous Total : {{rowData['quantity']}} FCFA
+         </td>
+
+         <td >  
+          <i #menu class="pi pi-chevron-circle-down
+          "></i>
+          <p-contextMenu [target]="menu" [model]="items" [triggerEvent]="'click'" ></p-contextMenu>
          </td>
 
         </tr>
