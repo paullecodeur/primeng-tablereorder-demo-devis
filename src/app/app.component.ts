@@ -299,6 +299,7 @@ export class AppComponent {
 
             if(this.products[indexdrap].rowType === 'ligne') {
                 this.products[indexdrap].parentId = droprow.id;
+                // this.products[indexdrap].parentId = droprow.parentId;
             }
 
             if(this.products[indexdrap].rowType === 'section') {
