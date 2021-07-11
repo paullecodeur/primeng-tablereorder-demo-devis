@@ -9,16 +9,16 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <!-- *ngIf="rowData['visible']" -->
-        <tr *ngIf="rowData['rowType'] == 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index);false" >
+        <tr  *ngIf="rowData['rowType'] === 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
             <td>
                 <span class="pi pi-bars" pReorderableRowHandle></span>
             </td>
             <!-- <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
             </td> -->
-            <!-- <td>
+            <td>
               {{rowData['number']}}
-            </td> -->
+            </td>
 
             <td pEditableColumn>
             <p-cellEditor>
@@ -26,7 +26,7 @@
                <input pInputText type="text" [(ngModel)]="rowData['name']" required>
              </ng-template>
              <ng-template pTemplate="output">
-             {{rowData['number']}} {{rowData['name']}}
+             {{rowData['name']}}
              </ng-template>
             </p-cellEditor>
             </td>
@@ -51,13 +51,13 @@
             </td>
         </tr>
 
-        <tr *ngIf="rowData['rowType'] == 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index);false" >
+        <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
          <td> 
             <span class="pi pi-bars" pReorderableRowHandle></span>
          </td>
-        <!--  <td>
+         <td>
            {{rowData['number']}}
-         </td> -->
+         </td>
 
          <td pEditableColumn colspan="3"> 
          <p-cellEditor>
@@ -65,7 +65,7 @@
            <input pInputText type="text" [(ngModel)]="rowData['name']" required>
          </ng-template>
          <ng-template pTemplate="output">
-         {{rowData['number']}} {{rowData['name']}}
+         {{rowData['name']}}
          </ng-template>
          </p-cellEditor>
          </td>

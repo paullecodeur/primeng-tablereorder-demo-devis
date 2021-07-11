@@ -5,7 +5,8 @@ import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent { 
     products: Product[];
@@ -31,7 +32,7 @@ export class AppComponent {
         });
 
         this.cols = [
-            // { field: 'number', header: 'Num' },
+            { field: 'number', header: 'Num' },
             { field: 'name', header: 'Name' },
             { field: 'id', header: 'ID' },
             { field: 'code', header: 'Code' },
@@ -175,7 +176,7 @@ export class AppComponent {
 
     dragEnd(rowData) {
 
-        console.log('drap start', rowData)
+        console.log('drap end', rowData)
         this.products.forEach((elem, index) => {
             if(elem.parentId === this.drapelem.id) {
                 elem.visible = true;
