@@ -20,6 +20,9 @@ export class AppComponent {
 
     statuses: SelectItem[];
 
+    separateur = '.';
+
+
 
     constructor(private productService: ProductService) { }
 
@@ -178,11 +181,35 @@ export class AppComponent {
 
     }
 
+    recurciveNumerotation(parent) {
+
+        let compt = 0;
+        this.products.forEach((elem) => {
+            if(elem.parentId === parent.id) {
+                // si on trouve un fils on le  compte
+                compt++;
+                elem.number = parent.number + this.separateur + compt.toString();
+
+                // on recommence le processus pour chaque fils trouvé
+                this.recurciveNumerotation(elem);
+            }
+        })
+
+    }
+
     numerotation() {
 
-        let compt = 1;
+        let compt = 0;
+        this.products.forEach((elem, index) => {
+            if(elem.parentId === null) {
+                // si on trouve un parent on le  compte
+                compt++;
+                elem.number = compt.toString();
+                this.recurciveNumerotation(elem);
+            }
+        })
         
-        const separateur = ' ' + '.' + ' '
+        /* const separateur = ' ' + '.' + ' '
 
         this.products.forEach((elem, index) => {
             if(elem.parentId === null) {
@@ -208,10 +235,10 @@ export class AppComponent {
                 compt++;
 
             }
-        })
+        }) */
 
-         // sort
-         this.products.sort(function(a, b) {
+        // sort
+        this.products.sort(function(a, b) {
 
             if (a.number < b.number)
             return -1;
@@ -255,12 +282,15 @@ export class AppComponent {
 
         // mise à jour parent
         if(droprow.rowType === 'ligne') {
-            // on controle le niveau du parent
+            
             if(this.products[indexdrap].rowType === 'ligne') {
                 this.products[indexdrap].parentId = droprow.parentId;
             }
 
-            if(this.products[indexdrap].rowType === 'section' && this.parentLevel(droprow) < 2) {
+            
+            if(this.products[indexdrap].rowType === 'section' ) {
+                
+                if(this.parentLevel(droprow) < 2) // controle niveau parent 
                 this.products[indexdrap].parentId = droprow.parentId;
             }
         }
@@ -295,32 +325,41 @@ export class AppComponent {
 
     }
 
+    recurciveHidden(parent) {
+
+        this.products.forEach((elem) => {
+            if(elem.parentId === parent.id) {
+                // si on trouve un fils on le  masque
+                elem.visible = false; 
+                this.recurciveHidden(elem);
+            }
+        })
+    }
+
+    recurciveShow(parent) {
+
+        this.products.forEach((elem) => {
+            if(elem.parentId === parent.id) {
+                // si on trouve un fils on le  masque
+                elem.visible = true; 
+                this.recurciveShow(elem);
+            }
+        })
+    
+    }
+
 
     dragStart(rowData){
         // alert('');
         this.elemDrop = [];
         this.drapelem = rowData;
         console.log('drap start', rowData)
-        this.products.forEach((elem, index) => {
-            if(elem.parentId === this.drapelem.id) {
-                elem.visible = false;
-                this.elemDrop.push(elem);
-               // console.log(index);
-            }
-        })
+        this.recurciveHidden(this.drapelem);
     }
 
     dragEnd(rowData) {
-
         console.log('drap end', rowData)
-        this.products.forEach((elem, index) => {
-            if(elem.parentId === this.drapelem.id) {
-                elem.visible = true;
-                this.elemDrop.push(elem);
-               // console.log(index);
-            }
-        })
-
+        this.recurciveShow(this.drapelem);
     }
 
     dragleave(){
