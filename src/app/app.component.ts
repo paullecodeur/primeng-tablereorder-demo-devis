@@ -294,11 +294,6 @@ export class AppComponent {
 
         console.log(index);
         console.log('drop', droprow);
-        // on masque les fils
-        this.products.forEach(elem => {
-            if(elem.parentId === this.drapelem.id)
-            elem.visible = true;
-        })
 
 
         const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
@@ -335,7 +330,38 @@ export class AppComponent {
         // numerotation
         this.numerotation();
 
+        // this.drapelem.expand = true;
+
     } 
+
+    
+    expand(rowData){
+        //alert()
+        rowData.expand = true;
+        this.products.forEach((elem) => {
+            if(elem.parentId === rowData.id) {
+                // si on trouve un fils on le  masque
+                elem.visible = true; 
+                elem.expand = true;
+                this.expand(elem);
+            }
+        })
+
+    }
+
+    close(rowData){
+        rowData.expand = false;
+        this.products.forEach((elem) => {
+            if(elem.parentId === rowData.id) {
+                // si on trouve un fils on le  masque
+                elem.visible = false; 
+                elem.expand = false;
+                this.close(elem);
+            }
+        })
+
+    }
+
 
 
     parentLevel(rowData) {
@@ -380,11 +406,13 @@ export class AppComponent {
         this.elemDrop = [];
         this.drapelem = rowData;
         console.log('drap start', rowData)
+        // if(rowData.expand || rowData.expand === undefined)
         this.recurciveHidden(this.drapelem);
     }
 
     dragEnd(rowData) {
         console.log('drap end', rowData)
+        if(rowData.expand || rowData.expand === undefined)
         this.recurciveShow(this.drapelem);
     }
 

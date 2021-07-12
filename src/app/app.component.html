@@ -65,7 +65,7 @@
             </td>
         </tr>
 
-        <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
+        <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section' && rowData['visible']"    [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
          <td> 
             <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
             <span  class="pi pi-th-large" pReorderableRowHandle></span>
@@ -76,8 +76,8 @@
          </td> -->
 
          <td>
-         <span (click)="expand(rowData)" *ngIf="rowData['expand'] || rowData['expand'] === undefined" class="pi pi-minus-circle" ></span> 
-         <span (click)="show(rowData)" *ngIf="!(rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-plus-circle" ></span>
+         <span (click)="close(rowData)" *ngIf="rowData['expand'] || rowData['expand'] === undefined" class="pi pi-minus-circle" ></span> 
+         <span (click)="expand(rowData)" *ngIf="!(rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-plus-circle" ></span>
          {{rowData['number']}}
          </td>
 

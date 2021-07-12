@@ -14,5 +14,5 @@ export interface Product {
     visible?:boolean;
     rowType?: string;
     order?: number;
-    expand?: boolean
+    expand?: boolean;
 }
