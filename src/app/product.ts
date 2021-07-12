@@ -13,5 +13,6 @@ export interface Product {
     parentId?:number;
     visible?:boolean;
     rowType?: string;
-    order?: number
+    order?: number;
+    expand?: boolean
 }

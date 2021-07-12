@@ -11,7 +11,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <!-- *ngIf="rowData['visible']" -->
-        <tr  *ngIf="rowData['rowType'] === 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
+        <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
             <td>
                 <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
                 <span class="pi pi-th-large" pReorderableRowHandle></span>
@@ -26,7 +26,7 @@
                 {{rowData[col.field]}}
             </td> -->
             <td>
-              {{rowData['number']}}
+             &nbsp; &nbsp; {{rowData['number']}}
             </td>
 
             <td pEditableColumn>
@@ -68,7 +68,7 @@
         <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
          <td> 
             <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
-            <span class="pi pi-th-large" pReorderableRowHandle></span>
+            <span  class="pi pi-th-large" pReorderableRowHandle></span>
          </td>
 
          <!-- <td>
@@ -76,7 +76,9 @@
          </td> -->
 
          <td>
-           {{rowData['number']}}
+         <span (click)="expand(rowData)" *ngIf="rowData['expand'] || rowData['expand'] === undefined" class="pi pi-minus-circle" ></span> 
+         <span (click)="show(rowData)" *ngIf="!(rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-plus-circle" ></span>
+         {{rowData['number']}}
          </td>
 
          <td pEditableColumn colspan="2"> 
