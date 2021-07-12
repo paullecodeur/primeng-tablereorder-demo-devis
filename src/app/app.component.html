@@ -13,8 +13,15 @@
         <!-- *ngIf="rowData['visible']" -->
         <tr  *ngIf="rowData['rowType'] === 'ligne'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
             <td>
-                <span class="pi pi-bars" pReorderableRowHandle></span>
+                <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
+                <span class="pi pi-th-large" pReorderableRowHandle></span>
+                
             </td>
+
+            <!-- <td>
+            {{rowData['order']}}
+            </td> -->
+
             <!-- <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
             </td> -->
@@ -60,8 +67,14 @@
 
         <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section'" [style.visibility]="rowData['visible'] ? 'visible' : 'hidden'"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
          <td> 
-            <span class="pi pi-bars" pReorderableRowHandle></span>
+            <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
+            <span class="pi pi-th-large" pReorderableRowHandle></span>
          </td>
+
+         <!-- <td>
+         {{rowData['order']}}
+         </td> -->
+
          <td>
            {{rowData['number']}}
          </td>

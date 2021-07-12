@@ -38,6 +38,7 @@ export class AppComponent {
         });
 
         this.cols = [
+            // { field: 'order', header: '' },
             { field: 'number', header: 'Num' },
             { field: 'name', header: 'Name' },
             { field: 'id', header: 'ID' },
@@ -179,19 +180,23 @@ export class AppComponent {
             }
         ];
 
+        // numerotation
+        // this.numerotation();
+
     }
 
-    recurciveNumerotation(parent) {
+    recurciveNumerotation(parent, comptorder) {
 
         let compt = 0;
         this.products.forEach((elem) => {
             if(elem.parentId === parent.id) {
                 // si on trouve un fils on le  compte
                 compt++;
+                comptorder.value++;
                 elem.number = parent.number + this.separateur + compt.toString();
-
+                elem.order = comptorder.value;
                 // on recommence le processus pour chaque fils trouvé
-                this.recurciveNumerotation(elem);
+                this.recurciveNumerotation(elem, comptorder);
             }
         })
 
@@ -199,13 +204,33 @@ export class AppComponent {
 
     numerotation() {
 
+        // primitive type variables like strings and numbers are always passed by value.
+        // Arrays and Objects are passed by reference or by value based on these conditions:
+            /* if you are setting the value of an object or array it is Pass by Value.
+
+            object1 = {prop: "car"};
+            array1 = [1,2,3];
+
+            if you are changing a property value of an object or array then it is Pass by Reference.
+
+            object1.prop = "car";
+            array1[0] = 9; */
+
+        // Initialize `comptorder` as object
+        const comptorder = {
+            // The `value` is inside `ref` variable object
+            // The initial value is `1`
+            value: 0
+        };
         let compt = 0;
         this.products.forEach((elem, index) => {
             if(elem.parentId === null) {
                 // si on trouve un parent on le  compte
                 compt++;
+                comptorder.value++;
                 elem.number = compt.toString();
-                this.recurciveNumerotation(elem);
+                elem.order = comptorder.value;
+                this.recurciveNumerotation(elem, comptorder);
             }
         })
         
@@ -240,9 +265,9 @@ export class AppComponent {
         // sort
         this.products.sort(function(a, b) {
 
-            if (a.number < b.number)
+            if (a.order < b.order)
             return -1;
-            if (a.number > b.number)
+            if (a.order > b.order)
             return 1;
             // a doit être égal à b
             return 0;
