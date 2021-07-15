@@ -17,6 +17,7 @@ export class AppComponent {
     cols: any[];
 
     drapelem: any;
+    drowpelem: any;
     drapIndex: any;
 
     statuses: SelectItem[];
@@ -296,42 +297,11 @@ export class AppComponent {
         console.log(index);
         console.log('drop', droprow);
 
-
-        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
-
-        // this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
-
-        // mise à jour parent
-        if(droprow.rowType === 'ligne') {
-            
-            if(this.products[indexdrap].rowType === 'ligne') {
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-
-            
-            if(this.products[indexdrap].rowType === 'section' ) {
-                
-                if(this.parentLevel(droprow) < 2) // controle niveau parent 
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-        }
-
-        if(droprow.rowType === 'section') {
-
-            if(this.products[indexdrap].rowType === 'ligne') {
-                this.products[indexdrap].parentId = droprow.id;
-                // this.products[indexdrap].parentId = droprow.parentId;
-            }
-
-            if(this.products[indexdrap].rowType === 'section') {
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-        }
+        
 
         // numerotation
         this.numerotation();
 
-        // this.drapelem.expand = true;
 
     } 
 
@@ -416,13 +386,43 @@ export class AppComponent {
         this.recurciveShow(this.drapelem);
     }
 
-    dragleave(){
-        // console.log('dragleave', this.products[index])
+    dragleave(rowData){
+        // console.log('dragleave', rowData)
+
+        const droprow = rowData;
+        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
+
+        // mise à jour parent
+        if(droprow.rowType === 'ligne') {
+            
+            if(this.products[indexdrap].rowType === 'ligne') {
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+
+            
+            if(this.products[indexdrap].rowType === 'section' ) {
+                
+                if(this.parentLevel(droprow) < 2) // controle niveau parent 
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+        }
+
+        if(droprow.rowType === 'section') {
+
+            if(this.products[indexdrap].rowType === 'ligne') {
+                this.products[indexdrap].parentId = droprow.id;
+                // this.products[indexdrap].parentId = droprow.parentId;
+            }
+
+            if(this.products[indexdrap].rowType === 'section') {
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+        } 
 
     }
 
     dragover(){
-        // console.log('drapover')
+        console.log('drapover')
         
     }
 
@@ -430,9 +430,18 @@ export class AppComponent {
 
     dragenter(index: number){
         // alert('');
-        console.log('drapenter')
+        // console.log('drapenter', this.products[index])
         const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
         moveItemInArray(this.products, indexdrap, index);
+
+        this.drowpelem = this.products[indexdrap];
+
+        // const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
+
+        // this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
+
+        
+    
     }
 
     onRowReorder(event) {
