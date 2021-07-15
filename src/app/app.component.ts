@@ -17,7 +17,7 @@ export class AppComponent {
     cols: any[];
 
     drapelem: any;
-    elemDrop: any[]=[];
+    drapIndex: any;
 
     statuses: SelectItem[];
 
@@ -404,7 +404,6 @@ export class AppComponent {
 
     dragStart(rowData){
         // alert('');
-        this.elemDrop = [];
         this.drapelem = rowData;
         console.log('drap start', rowData)
         // if(rowData.expand || rowData.expand === undefined)
@@ -417,9 +416,9 @@ export class AppComponent {
         this.recurciveShow(this.drapelem);
     }
 
-    dragleave(event: CdkDragDrop<string[]>){
-        console.log('dragleave')
-        moveItemInArray(this.products, event.previousIndex, event.currentIndex);
+    dragleave(){
+        // console.log('dragleave', this.products[index])
+
     }
 
     dragover(){
@@ -429,9 +428,11 @@ export class AppComponent {
 
    
 
-    dragenter(){
+    dragenter(index: number){
         // alert('');
         console.log('drapenter')
+        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
+        moveItemInArray(this.products, indexdrap, index);
     }
 
     onRowReorder(event) {

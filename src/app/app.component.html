@@ -11,7 +11,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <!-- *ngIf="rowData['visible']" -->
-        <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" (dragleave)="dragleave($event)">
+        <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)">
             <td>
                 <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
                 <span class="pi pi-th-large" pReorderableRowHandle></span>
@@ -65,7 +65,7 @@
             </td>
         </tr>
 
-        <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section' && rowData['visible']"    [pReorderableRow]="index"  (dragstart)="dragStart(rowData)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" >
+        <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section' && rowData['visible']"    [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)">
          <td> 
             <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
             <span  class="pi pi-th-large" pReorderableRowHandle></span>
