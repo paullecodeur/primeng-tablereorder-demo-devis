@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from './productservice';
 import { Product } from './product';
 import { MenuItem, SelectItem } from 'primeng/api';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -416,8 +417,9 @@ export class AppComponent {
         this.recurciveShow(this.drapelem);
     }
 
-    dragleave(){
+    dragleave(event: CdkDragDrop<string[]>){
         console.log('dragleave')
+        moveItemInArray(this.products, event.previousIndex, event.currentIndex);
     }
 
     dragover(){
