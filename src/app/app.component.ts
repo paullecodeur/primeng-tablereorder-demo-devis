@@ -17,7 +17,6 @@ export class AppComponent {
     cols: any[];
 
     drapelem: any;
-    drowpelem: any;
     drapIndex: any;
 
     statuses: SelectItem[];
@@ -297,11 +296,6 @@ export class AppComponent {
         console.log(index);
         console.log('drop', droprow);
 
-        
-
-        // numerotation
-        this.numerotation();
-
 
     } 
 
@@ -372,9 +366,10 @@ export class AppComponent {
     }
 
 
-    dragStart(rowData){
+    dragStart(rowData, index){
         // alert('');
         this.drapelem = rowData;
+        this.drapIndex = index;
         console.log('drap start', rowData)
         // if(rowData.expand || rowData.expand === undefined)
         this.recurciveHidden(this.drapelem);
@@ -382,12 +377,17 @@ export class AppComponent {
 
     dragEnd(rowData) {
         console.log('drap end', rowData)
+        
+        
+        // numerotation
+        this.numerotation();
+
         if(rowData.expand || rowData.expand === undefined)
         this.recurciveShow(this.drapelem);
     }
 
-    dragleave(rowData){
-        // console.log('dragleave', rowData)
+    dragleave(rowData, index){
+        //console.log('dragleave', rowData)
 
         const droprow = rowData;
         const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
@@ -430,21 +430,32 @@ export class AppComponent {
 
     dragenter(index: number){
         // alert('');
-        // console.log('drapenter', this.products[index])
-        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
-        moveItemInArray(this.products, indexdrap, index);
+        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id);
+        // console.log('drapenter', this.products[indexdrap])
 
-        this.drowpelem = this.products[indexdrap];
+        //if(index > indexdrap)
+        // this.arraymove(this.products, indexdrap, index);
+        /* else 
+        moveItemInArray(this.products, indexdrap, index-1);  */
 
         // const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
 
         // this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
 
-        
     
     }
 
+    arraymove(arr, fromIndex, toIndex) {
+        /* var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        // this.insertAt(arr, toIndex)
+        arr.splice(toIndex, 0, element); */
+        
+        arr.splice(toIndex, 0, arr.splice(fromIndex, 1)[0]);
+    }
+
     onRowReorder(event) {
+        console.log('onRowReorder', event)
         // alert(event.dropIndex);
         /* this.products.forEach(elem => {
             elem.number = '5';

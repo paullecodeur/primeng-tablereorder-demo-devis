@@ -1,4 +1,4 @@
-<p-table [(contextMenuSelection)]="selectedProduct" [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReording)= "onRowReording($event)" [(contextMenuSelection)]="selectedProduct">
+<p-table [(contextMenuSelection)]="selectedProduct" [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReorder)= "onRowReorder($event)" [(contextMenuSelection)]="selectedProduct">
 <ng-template pTemplate="header" let-columns>
     <tr>
         <th style="width:3rem"></th>
@@ -11,7 +11,7 @@
 </ng-template>
 <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
     <!-- *ngIf="rowData['visible']" -->
-    <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)" (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)"  (dragleave)="dragleave(rowData)">
+    <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)" (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)"  (dragleave)="dragleave(rowData, index)">
         <td>
             <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
             <span class="pi pi-th-large" pReorderableRowHandle></span>
@@ -65,7 +65,7 @@
         </td>
     </tr>
 
-    <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section' && rowData['visible']"    [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)" (dragleave)="dragleave(rowData)">
+    <tr [ngClass]="(rowData['parentId'] === null)? 'section': 'sous-section'" *ngIf="rowData['rowType'] === 'section' && rowData['visible']"    [pReorderableRow]="index"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)"  (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)" (dragleave)="dragleave(rowData, index)">
      <td> 
         <!-- <span class="pi pi-bars" pReorderableRowHandle></span> -->
         <span  class="pi pi-th-large" pReorderableRowHandle></span>
