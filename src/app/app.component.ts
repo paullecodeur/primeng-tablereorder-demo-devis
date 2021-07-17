@@ -23,6 +23,8 @@ export class AppComponent {
 
     separateur = '.';
 
+    niveauParent = 3;
+
 
 
     constructor(private productService: ProductService) { }
@@ -402,7 +404,7 @@ export class AppComponent {
             
             if(this.products[indexdrap].rowType === 'section' ) {
                 
-                if(this.parentLevel(droprow) < 2) // controle niveau parent 
+                if(this.parentLevel(droprow) < this.niveauParent) // controle niveau parent 
                 this.products[indexdrap].parentId = droprow.parentId;
             }
         }
@@ -410,13 +412,20 @@ export class AppComponent {
         if(droprow.rowType === 'section') {
 
             if(this.products[indexdrap].rowType === 'ligne') {
-                this.products[indexdrap].parentId = droprow.id;
-                // this.products[indexdrap].parentId = droprow.parentId;
+                if(indexdrap > index) // en descendant
+                this.products[indexdrap].parentId = droprow.id; // la ligne devient sous ligne
+                else // en montant
+                this.products[indexdrap].parentId = droprow.parentId;
             }
 
             if(this.products[indexdrap].rowType === 'section') {
+                if(indexdrap > index) {// en descendant
+                    if(this.parentLevel(droprow) < (this.niveauParent-1)) // la section devient une sous section si le niveau n'est pas encore atteind
+                    this.products[indexdrap].parentId = droprow.id;
+                }
+                else // en montant
                 this.products[indexdrap].parentId = droprow.parentId;
-            }
+            } 
         } 
 
     }
