@@ -433,14 +433,9 @@ export class AppComponent {
         const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id);
         // console.log('drapenter', this.products[indexdrap])
 
-        //if(index > indexdrap)
         // this.arraymove(this.products, indexdrap, index);
-        /* else 
-        moveItemInArray(this.products, indexdrap, index-1);  */
+        moveItemInArray(this.products, indexdrap, index); 
 
-        // const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
-
-        // this.insertArrayAt(this.products, indexdrap + 1, this.elemDrop);
 
     
     }
