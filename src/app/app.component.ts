@@ -45,7 +45,7 @@ export class AppComponent {
             { field: 'number', header: 'Num' },
             { field: 'name', header: 'Name' },
             { field: 'id', header: 'ID' },
-            { field: 'code', header: 'Code' },
+            { field: 'quantity', header: 'Quantity' },
             { field: 'category', header: 'Category' },
             // { field: 'rating', header: 'Rating' }
         ];
@@ -188,6 +188,9 @@ export class AppComponent {
 
     }
 
+
+    
+
     recurciveNumerotation(parent, comptorder) {
 
         let compt = 0;
@@ -205,7 +208,48 @@ export class AppComponent {
 
     }
 
+    recurciveTotal(racine, parent) {
+
+        this.products.forEach((elem) => {
+            if(elem.parentId === parent.id ) {
+                // si on trouve un fils on le  compte
+                if(elem.rowType === "ligne"){
+                    racine.quantity += elem.quantity ;
+                }
+
+                if(elem.rowType === "section") {
+                    this.recurciveTotal(racine, elem);
+                } 
+                
+                // on recommence le processus pour chaque fils trouvé
+            }
+        })
+
+    }
+
+    calculTotaux() {
+
+        // Initialize total
+        const comptTotal = {
+            // The `value` is inside `ref` variable object
+            // The initial value is `1`
+            value: 0
+        };
+        this.products.forEach((elem, index) => {
+            if(elem.rowType === "section") {
+                elem.quantity = 0;
+                this.recurciveTotal(elem, elem);
+            } else {
+                comptTotal.value += elem.quantity;
+            }
+        })
+
+    }
+
     numerotation() {
+
+        
+        this.calculTotaux();
 
         // primitive type variables like strings and numbers are always passed by value.
         // Arrays and Objects are passed by reference or by value based on these conditions:
@@ -236,6 +280,9 @@ export class AppComponent {
                 this.recurciveNumerotation(elem, comptorder);
             }
         })
+
+
+
         
         /* const separateur = ' ' + '.' + ' '
 

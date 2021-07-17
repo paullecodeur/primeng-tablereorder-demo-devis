@@ -43,8 +43,16 @@
         <td>
           {{rowData['id']}}
         </td>
-        <td>
-          {{rowData['code']}}
+        <td pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="number" [(ngModel)]="rowData['quantity']" required>
+            </ng-template>
+            <ng-template pTemplate="output">
+            {{rowData['quantity']}}
+            </ng-template>
+          </p-cellEditor>
+          
         </td>
         
 
