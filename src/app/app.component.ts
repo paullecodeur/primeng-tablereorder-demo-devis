@@ -23,7 +23,7 @@ export class AppComponent {
 
     separateur = '.';
 
-    niveauParent = 3;
+    niveauParent = 2;
 
 
 
