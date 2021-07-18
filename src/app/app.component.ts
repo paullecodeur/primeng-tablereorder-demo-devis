@@ -457,6 +457,8 @@ export class AppComponent {
 
     dragStart(rowData, index){
         // alert('');
+
+        rowData.isdrag = true;
         this.drapelem = rowData;
         this.drapIndex = index;
         console.log('drap start', rowData)
@@ -466,7 +468,7 @@ export class AppComponent {
 
     dragEnd(rowData) {
         console.log('drap end', rowData)
-        
+        rowData.isdrag = false;
         
         // numerotation
         this.numerotation();

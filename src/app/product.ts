@@ -15,4 +15,5 @@ export interface Product {
     rowType?: string;
     order?: number;
     expand?: boolean;
+    isdrag?: boolean;
 }

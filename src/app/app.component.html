@@ -11,7 +11,7 @@
 </ng-template>
 <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
     <!-- *ngIf="rowData['visible']" -->
-    <tr  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="undefined"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)" (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)"  (dragleave)="dragleave(rowData, index)" >
+    <tr [ngClass]="(rowData['isdrag'])? 'custom-placeholder': ''"  *ngIf="rowData['rowType'] === 'ligne' && rowData['visible']"   [pReorderableRow]="undefined"  (dragstart)="dragStart(rowData, index)" (dragend)="dragEnd(rowData)" (drop)="onDrop($event, rowData, index)" (dragenter)="dragenter(index)"  (dragleave)="dragleave(rowData, index)" >
         <td>
             <span class="pi pi-bars" pReorderableRowHandle></span> 
             <!-- <span class="pi pi-th-large" pReorderableRowHandle></span> -->
