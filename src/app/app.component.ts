@@ -246,6 +246,46 @@ export class AppComponent {
 
     }
 
+    recurciveNbrFils(comptTotal, parent) {
+
+        this.products.forEach((elem) => {
+            if(elem.parentId === parent.id ) {
+                // si on trouve un fils on le  compte
+                if(elem.rowType === "ligne"){
+                    comptTotal.value++ ;
+                }
+
+                if(elem.rowType === "section") {
+                    this.recurciveNbrFils(comptTotal, elem);
+                } 
+                
+                // on recommence le processus pour chaque fils trouvé
+            }
+        })
+
+    }
+
+    nbrFils(index) {
+
+        // Initialize total
+        const comptTotal = {
+            // The `value` is inside `ref` variable object
+            // The initial value is `1`
+            value: 0
+        };
+        
+        this.recurciveNbrFils(comptTotal, this.products[index]);
+          
+
+        return comptTotal.value
+
+    }
+
+    editComplete(event) {
+        console.log(event)
+        this.calculTotaux();
+    }
+
     numerotation() {
 
         

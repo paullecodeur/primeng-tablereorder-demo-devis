@@ -1,4 +1,4 @@
-<p-table [(contextMenuSelection)]="selectedProduct" [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReorder)= "onRowReorder($event)" [(contextMenuSelection)]="selectedProduct">
+<p-table [(contextMenuSelection)]="selectedProduct" [value]="products" [columns]="cols" [reorderableColumns]="true" (onRowReorder)= "onRowReorder($event)" (onRowReorder)= "onRowReorder($event)" (onEditComplete)="editComplete($event)" [(contextMenuSelection)]="selectedProduct">
 <ng-template pTemplate="header" let-columns>
     <tr>
         <th style="width:3rem"></th>
@@ -46,7 +46,7 @@
         <td pEditableColumn>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input pInputText type="number" [(ngModel)]="rowData['quantity']" required>
+              <input pInputText type="number" [(ngModel)]="rowData['quantity']" required style="width:100%">
             </ng-template>
             <ng-template pTemplate="output">
             {{rowData['quantity']}}
@@ -84,9 +84,16 @@
      </td> -->
 
      <td>
-     <span (click)="close(rowData)" *ngIf="rowData['expand'] || rowData['expand'] === undefined" class="pi pi-minus-circle" ></span> 
-     <span (click)="expand(rowData)" *ngIf="!(rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-plus-circle" ></span>
-     {{rowData['number']}}
+
+        <span (click)="close(rowData)" *ngIf="nbrFils(index)>0 && (rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-minus-circle" ></span> 
+
+        <span (click)="expand(rowData)" *ngIf="nbrFils(index)>0 && !(rowData['expand'] || rowData['expand'] === undefined)" class="pi pi-plus-circle" ></span>
+        
+        <!-- cas ou la section n'a pas de fils -->
+        <span *ngIf="nbrFils(index) === 0"> &nbsp; &nbsp;</span>
+
+        {{rowData['number']}}
+
      </td>
 
      <td pEditableColumn colspan="2"> 
