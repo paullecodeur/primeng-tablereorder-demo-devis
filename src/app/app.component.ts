@@ -189,8 +189,6 @@ export class AppComponent {
     }
 
 
-    
-
     recurciveNumerotation(parent, comptorder) {
 
         let compt = 0;
@@ -367,6 +365,122 @@ export class AppComponent {
 
     }
 
+    
+    dragStart(rowData, index){
+        // alert('');
+
+        rowData.isdrag = true;
+        this.drapelem = rowData;
+        this.drapIndex = index;
+        console.log('drap start', rowData)
+        // if(rowData.expand || rowData.expand === undefined)
+        this.recurciveHidden(this.drapelem);
+    }
+
+    
+    dragenter(index: number){
+        // alert('');
+        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id);
+        // console.log('drapenter', this.products[indexdrap])
+
+        // this.arraymove(this.products, indexdrap, index);
+        moveItemInArray(this.products, indexdrap, index); 
+    }
+
+
+    dragleave(rowData, index){
+        //console.log('dragleave', rowData)
+
+        const droprow = rowData;
+        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
+
+        // mise à jour parent
+        if(droprow.rowType === 'ligne') {
+            
+            if(this.products[indexdrap].rowType === 'ligne') {
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+
+            
+            if(this.products[indexdrap].rowType === 'section' ) {
+                
+                if(this.parentLevel(droprow) < this.niveauParent) // controle niveau parent 
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+        }
+
+        if(droprow.rowType === 'section') {
+
+            if(this.products[indexdrap].rowType === 'ligne') {
+                if(indexdrap > index) // en descendant
+                this.products[indexdrap].parentId = droprow.id; // la ligne devient sous ligne
+                else // en montant
+                this.products[indexdrap].parentId = droprow.parentId;
+            }
+
+            if(this.products[indexdrap].rowType === 'section') {
+                if(indexdrap > index) {// en descendant
+                    if(this.parentLevel(droprow) < (this.niveauParent-1)) // la section devient une sous section si le niveau n'est pas encore atteind
+                    this.products[indexdrap].parentId = droprow.id;
+                }
+                else // en montant
+                this.products[indexdrap].parentId = droprow.parentId;
+            } 
+        } 
+
+    }
+
+    dragEnd(rowData) {
+        console.log('drap end', rowData)
+        rowData.isdrag = false;
+        
+        // numerotation
+        this.numerotation();
+
+        if(rowData.expand || rowData.expand === undefined)
+        this.recurciveShow(this.drapelem);
+    }
+
+    
+
+    dragover(){
+        console.log('drapover')
+        
+    }
+
+   
+    arraymove(arr, fromIndex, toIndex) {
+        /* var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        // this.insertAt(arr, toIndex)
+        arr.splice(toIndex, 0, element); */
+        
+        arr.splice(toIndex, 0, arr.splice(fromIndex, 1)[0]);
+    }
+
+    onRowReorder(event) {
+        console.log('onRowReorder', event)
+        // alert(event.dropIndex);
+        /* this.products.forEach(elem => {
+            elem.number = '5';
+        }) */
+
+        // on tri le tableau
+        // on ordonne le tableau de flux
+        /* this.products.sort(function(a, b) {
+
+            if (a.id < b.id)
+            return 1;
+            if (a.id > b.id)
+            return -1;
+            // a doit être égal à b
+            return 0;
+
+            // return a.id - b.id;
+        }); */
+
+    }
+
     insertAt(array, index) {
         var arrayToInsert = Array.prototype.splice.apply(arguments, [2]);
         return this.insertArrayAt(array, index, arrayToInsert);
@@ -387,7 +501,6 @@ export class AppComponent {
 
 
     } 
-
     
     expand(rowData){
         //alert()
@@ -454,119 +567,4 @@ export class AppComponent {
     
     }
 
-
-    dragStart(rowData, index){
-        // alert('');
-
-        rowData.isdrag = true;
-        this.drapelem = rowData;
-        this.drapIndex = index;
-        console.log('drap start', rowData)
-        // if(rowData.expand || rowData.expand === undefined)
-        this.recurciveHidden(this.drapelem);
-    }
-
-    dragEnd(rowData) {
-        console.log('drap end', rowData)
-        rowData.isdrag = false;
-        
-        // numerotation
-        this.numerotation();
-
-        if(rowData.expand || rowData.expand === undefined)
-        this.recurciveShow(this.drapelem);
-    }
-
-    dragleave(rowData, index){
-        //console.log('dragleave', rowData)
-
-        const droprow = rowData;
-        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id)
-
-        // mise à jour parent
-        if(droprow.rowType === 'ligne') {
-            
-            if(this.products[indexdrap].rowType === 'ligne') {
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-
-            
-            if(this.products[indexdrap].rowType === 'section' ) {
-                
-                if(this.parentLevel(droprow) < this.niveauParent) // controle niveau parent 
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-        }
-
-        if(droprow.rowType === 'section') {
-
-            if(this.products[indexdrap].rowType === 'ligne') {
-                if(indexdrap > index) // en descendant
-                this.products[indexdrap].parentId = droprow.id; // la ligne devient sous ligne
-                else // en montant
-                this.products[indexdrap].parentId = droprow.parentId;
-            }
-
-            if(this.products[indexdrap].rowType === 'section') {
-                if(indexdrap > index) {// en descendant
-                    if(this.parentLevel(droprow) < (this.niveauParent-1)) // la section devient une sous section si le niveau n'est pas encore atteind
-                    this.products[indexdrap].parentId = droprow.id;
-                }
-                else // en montant
-                this.products[indexdrap].parentId = droprow.parentId;
-            } 
-        } 
-
-    }
-
-    dragover(){
-        console.log('drapover')
-        
-    }
-
-   
-
-    dragenter(index: number){
-        // alert('');
-        const indexdrap = this.products.findIndex(ele=>ele.id === this.drapelem.id);
-        // console.log('drapenter', this.products[indexdrap])
-
-        // this.arraymove(this.products, indexdrap, index);
-        moveItemInArray(this.products, indexdrap, index); 
-
-
-    
-    }
-
-    arraymove(arr, fromIndex, toIndex) {
-        /* var element = arr[fromIndex];
-        arr.splice(fromIndex, 1);
-        // this.insertAt(arr, toIndex)
-        arr.splice(toIndex, 0, element); */
-        
-        arr.splice(toIndex, 0, arr.splice(fromIndex, 1)[0]);
-    }
-
-    onRowReorder(event) {
-        console.log('onRowReorder', event)
-        // alert(event.dropIndex);
-        /* this.products.forEach(elem => {
-            elem.number = '5';
-        }) */
-
-        // on tri le tableau
-        // on ordonne le tableau de flux
-        /* this.products.sort(function(a, b) {
-
-            if (a.id < b.id)
-            return 1;
-            if (a.id > b.id)
-            return -1;
-            // a doit être égal à b
-            return 0;
-
-            // return a.id - b.id;
-        }); */
-
-    }
 }

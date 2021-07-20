@@ -32,7 +32,7 @@
         <td pEditableColumn>
         <p-cellEditor>
          <ng-template pTemplate="input">
-           <input pInputText type="text" [(ngModel)]="rowData['name']" required>
+           <input pInputText type="text" [(ngModel)]="rowData['name']" required style="width:100%">
          </ng-template>
          <ng-template pTemplate="output">
          {{rowData['name']}}
