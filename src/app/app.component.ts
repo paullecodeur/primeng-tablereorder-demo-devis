@@ -3,6 +3,7 @@ import { ProductService } from './productservice';
 import { Product } from './product';
 import { MenuItem, SelectItem } from 'primeng/api';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 
 @Component({
   selector: 'app-root',
@@ -26,8 +27,18 @@ export class AppComponent {
     niveauParent = 2;
 
 
+    numberInWords: string;
+    lang: SUPPORTED_LANGUAGE = 'fr';
+    total = {
+        // The `value` is inside `ref` variable object
+        // The initial value is `1`
+        // value:128626243
+        value: 0
+    };
 
-    constructor(private productService: ProductService) { }
+
+
+    constructor(private productService: ProductService, public ngxNumToWordsService: NgxNumToWordsService) { }
 
     ngOnInit() {
 
@@ -227,18 +238,14 @@ export class AppComponent {
 
     calculTotaux() {
 
+        this.total.value = 0;
         // Initialize total
-        const comptTotal = {
-            // The `value` is inside `ref` variable object
-            // The initial value is `1`
-            value: 0
-        };
         this.products.forEach((elem, index) => {
             if(elem.rowType === "section") {
                 elem.quantity = 0;
                 this.recurciveTotal(elem, elem);
             } else {
-                comptTotal.value += elem.quantity;
+                this.total.value += elem.quantity;
             }
         })
 
@@ -432,13 +439,27 @@ export class AppComponent {
 
     dragEnd(rowData) {
         console.log('drap end', rowData)
+
+        // pour la class dynamique
         rowData.isdrag = false;
         
+        if(rowData.expand || rowData.expand === undefined)
+        this.recurciveShow(this.drapelem);
+
+        // expand parent
+        if(this.drapelem.parentId !== null) {
+
+            const indexparent = this.products.findIndex(ele=>ele.id === this.drapelem.parentId)
+
+            this.recurciveShow(this.products[indexparent]);
+            this.products[indexparent].expand = true;
+
+        }
+
+
         // numerotation
         this.numerotation();
 
-        if(rowData.expand || rowData.expand === undefined)
-        this.recurciveShow(this.drapelem);
     }
 
     
@@ -549,7 +570,9 @@ export class AppComponent {
         this.products.forEach((elem) => {
             if(elem.parentId === parent.id) {
                 // si on trouve un fils on le  masque
+                elem.expand = false;
                 elem.visible = false; 
+
                 this.recurciveHidden(elem);
             }
         })
@@ -560,6 +583,7 @@ export class AppComponent {
         this.products.forEach((elem) => {
             if(elem.parentId === parent.id) {
                 // si on trouve un fils on le  masque
+                elem.expand = true;
                 elem.visible = true; 
                 this.recurciveShow(elem);
             }

@@ -19,6 +19,7 @@ import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputTextModule} from 'primeng/inputtext';
+import { NgxNumToWordsModule } from 'ngx-num-to-words'; 
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import {InputTextModule} from 'primeng/inputtext';
     ProgressBarModule,
     HttpClientModule,
     FormsModule,
+    NgxNumToWordsModule,
     RouterModule.forRoot([
       {path:'',component: AppComponent}
 
